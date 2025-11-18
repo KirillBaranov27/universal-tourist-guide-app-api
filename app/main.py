@@ -33,13 +33,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Подключаем роутеры
+from app.api.routes import auth
+app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
+
 @app.get("/")
 async def root():
     return {
         "message": "Universal Tourist Guide API", 
         "status": "работает",
         "version": "0.1.0",
-        "database": "PostgreSQL"
+        "database": "PostgreSQL",
+        "features": ["аутентификация"]
     }
 
 @app.get("/health")
