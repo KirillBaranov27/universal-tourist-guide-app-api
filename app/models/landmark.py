@@ -1,24 +1,27 @@
 from sqlalchemy import Column, Integer, String, Float, Text, DateTime
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.core.database import Base
 
 class Landmark(Base):
-    """Модель достопримечательности"""
-    
     __tablename__ = "landmarks"
-    
+
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False, index=True)
     description = Column(Text)
-    short_description = Column(String(500))
+    city = Column(String(100), nullable=False, index=True)
+    country = Column(String(100), nullable=False)
+    category = Column(String(100), nullable=False, index=True)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
-    city = Column(String(100), nullable=False)
-    category = Column(String(100))
-    rating = Column(Float, default=0.0)
+    address = Column(String(500))
     image_url = Column(String(500))
-    audio_url = Column(String(500))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+    # Добавляем обратные отношения
+    favorites = relationship("Favorite", back_populates="landmark", cascade="all, delete-orphan")
+    reviews = relationship("Review", back_populates="landmark", cascade="all, delete-orphan")
+
     def __repr__(self):
-        return f"<Landmark(id={self.id}, name={self.name})>"
+        return f"<Landmark {self.name} ({self.city})>"

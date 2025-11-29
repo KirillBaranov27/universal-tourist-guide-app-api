@@ -9,6 +9,8 @@ try:
     # Явно импортируем модели для регистрации
     from app.models.user import User
     from app.models.landmark import Landmark
+    from app.models.favorite import Favorite
+    from app.models.review import Review
     
     # Создаём таблицы
     Base.metadata.create_all(bind=engine)
@@ -21,7 +23,9 @@ except Exception as e:
 app = FastAPI(
     title="Universal Tourist Guide API",
     description="Бэкенд API для мобильного приложения-гида по достопримечательностям",
-    version="0.1.0"
+    version="0.4.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
 # Настройка CORS для работы с мобильным приложением
@@ -34,19 +38,47 @@ app.add_middleware(
 )
 
 # Подключаем роутеры
-from app.api.routes import auth
-app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
+from app.api.routes import auth, landmarks, favorites, reviews
+app.include_router(auth.router, prefix="/api/auth", tags=["Аутентификация"])
+app.include_router(landmarks.router, prefix="/api", tags=["Достопримечательности"])
+app.include_router(favorites.router, prefix="/api", tags=["Избранное"])
+app.include_router(reviews.router, prefix="/api", tags=["Отзывы и оценки"])
 
 @app.get("/")
 async def root():
     return {
         "message": "Universal Tourist Guide API", 
         "status": "работает",
-        "version": "0.1.0",
+        "version": "0.4.0",
         "database": "PostgreSQL",
-        "features": ["аутентификация"]
+        "features": [
+            "аутентификация пользователей",
+            "CRUD операции для достопримечательностей", 
+            "поиск и фильтрация",
+            "геолокационный поиск",
+            "система избранного",
+            "система оценок и отзывов"
+        ]
     }
 
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+@app.get("/api/status")
+async def api_status():
+    return {
+        "status": "operational",
+        "version": "0.4.0",
+        "database": "connected",
+        "features": {
+            "authentication": True,
+            "landmarks_crud": True,
+            "search_filters": True,
+            "geolocation": True,
+            "pagination": True,
+            "favorites": True,
+            "reviews": True,
+            "ratings": True
+        }
+    }
