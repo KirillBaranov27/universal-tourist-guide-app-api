@@ -19,9 +19,11 @@ class Landmark(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
-    # Добавляем обратные отношения
     favorites = relationship("Favorite", back_populates="landmark", cascade="all, delete-orphan")
     reviews = relationship("Review", back_populates="landmark", cascade="all, delete-orphan")
+    
+    # Добавляем новую связь для обсуждений
+    discussions = relationship("Discussion", back_populates="landmark", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Landmark {self.name} ({self.city})>"

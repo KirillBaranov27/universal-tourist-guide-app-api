@@ -24,3 +24,5 @@ class FavoriteWithLandmarkResponse(FavoriteResponse):
 class FavoriteListResponse(BaseModel):
     items: List[FavoriteWithLandmarkResponse]
     total: int
+
+

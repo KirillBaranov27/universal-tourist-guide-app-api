@@ -27,6 +27,27 @@ from app.crud.review_crud import (
     get_landmark_rating_summary
 )
 
+from app.crud.user_crud import (
+    get_user_profile,
+    update_user_profile,
+    get_user_stats
+)
+
+from app.crud.discussion_crud import (
+    get_discussion,
+    get_discussions,
+    create_discussion,
+    update_discussion,
+    delete_discussion,
+    get_answer,
+    get_answers_by_discussion,
+    create_answer,
+    update_answer,
+    delete_answer,
+    vote_helpful,
+    get_discussion_stats
+)
+
 __all__ = [
     "get_landmark",
     "get_landmarks", 
@@ -47,5 +68,21 @@ __all__ = [
     "create_review",
     "update_review",
     "delete_review",
-    "get_landmark_rating_summary"
+    "get_landmark_rating_summary",
+    "get_user_profile",
+    "update_user_profile",
+    "get_user_stats",
+    # Новые - обсуждения
+    "get_discussion",
+    "get_discussions",
+    "create_discussion",
+    "update_discussion",
+    "delete_discussion",
+    "get_answer",
+    "get_answers_by_discussion",
+    "create_answer",
+    "update_answer",
+    "delete_answer",
+    "vote_helpful",
+    "get_discussion_stats"
 ]

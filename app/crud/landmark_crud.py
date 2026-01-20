@@ -82,7 +82,6 @@ def update_landmark(
     db.refresh(db_landmark)
     return db_landmark
 
-
 def delete_landmark(db: Session, landmark_id: int) -> bool:
     """
     Удалить достопримечательность
