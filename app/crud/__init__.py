@@ -84,5 +84,10 @@ __all__ = [
     "update_answer",
     "delete_answer",
     "vote_helpful",
-    "get_discussion_stats"
+    "get_discussion_stats",
+    "get_city_profile",
+    "get_city_stats", 
+    "get_cities_with_stats",
+    "get_filtered_landmarks_by_city",
+    "get_city_categories"
 ]

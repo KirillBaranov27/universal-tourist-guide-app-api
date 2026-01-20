@@ -4,6 +4,10 @@ from app.api.routes.favorites import router as favorites_router
 from app.api.routes.reviews import router as reviews_router
 from app.api.routes.profile import router as profile_router
 from app.api.routes.discussions import router as discussions_router
+from app.api.routes.cities import router as cities_router
+
+# Импортируем схемы, которые теперь существуют
+from app.schemas.city import CityBase, CityProfileResponse, CityFilters, CityStatsResponse
 
 __all__ = [
     "auth_router", 
@@ -11,5 +15,10 @@ __all__ = [
     "favorites_router", 
     "reviews_router",
     "profile_router",
-    "discussions_router"
+    "discussions_router",
+    "cities_router",
+    "CityBase", 
+    "CityProfileResponse", 
+    "CityFilters", 
+    "CityStatsResponse",
 ]

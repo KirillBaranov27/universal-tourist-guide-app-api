@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.database import engine, Base
+from app.api.routes import cities
 
 print("🔄 Создание таблиц в базе данных...")
 
@@ -23,7 +24,7 @@ except Exception as e:
 app = FastAPI(
     title="Universal Tourist Guide API",
     description="Бэкенд API для мобильного приложения-гида по достопримечательностям",
-    version="0.6.0",  # Обновляем версию
+    version = "0.7.0",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -44,7 +45,8 @@ app.include_router(landmarks.router, prefix="/api", tags=["Достоприме�
 app.include_router(favorites.router, prefix="/api", tags=["Избранное"])
 app.include_router(reviews.router, prefix="/api", tags=["Отзывы и оценки"])
 app.include_router(profile.router, prefix="/api", tags=["Профили пользователей"])
-app.include_router(discussions.router, prefix="/api", tags=["Обсуждения"])  # <-- Добавляем
+app.include_router(discussions.router, prefix="/api", tags=["Обсуждения"])
+app.include_router(cities.router, prefix="/api", tags=["Города"])
 
 @app.get("/")
 async def root():
@@ -61,7 +63,8 @@ async def root():
             "система избранного",
             "система оценок и отзывов",
             "профили пользователей с репутацией",
-            "форум обсуждений"
+            "форум обсуждений",
+            "профили городов с фильтрацией"
         ]
     }
 
@@ -85,6 +88,7 @@ async def api_status():
             "reviews": True,
             "ratings": True,
             "user_profiles": True,
-            "discussions": True
+            "discussions": True,
+            "city_profiles": True
         }
     }
