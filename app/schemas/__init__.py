@@ -8,6 +8,11 @@ from app.schemas.discussion import (
     DiscussionAnswerBase, DiscussionAnswerCreate, DiscussionAnswerUpdate, DiscussionAnswerResponse,
     DiscussionListResponse, AnswerListResponse, HelpfulVote
 )
+from app.schemas.city import CityBase, CityProfileResponse, CityFilters, CityStatsResponse, PopularCityResponse
+from app.schemas.notification import (
+    NotificationBase, NotificationCreate, NotificationUpdate, NotificationResponse,
+    NotificationListResponse, NotificationStatsResponse, MarkAsReadRequest, MarkAsReadResponse
+)
 
 __all__ = [
     # Существующие
@@ -19,5 +24,10 @@ __all__ = [
     # Новые - обсуждения
     "DiscussionBase", "DiscussionCreate", "DiscussionUpdate", "DiscussionResponse", "DiscussionWithAnswersResponse",
     "DiscussionAnswerBase", "DiscussionAnswerCreate", "DiscussionAnswerUpdate", "DiscussionAnswerResponse",
-    "DiscussionListResponse", "AnswerListResponse", "HelpfulVote"
+    "DiscussionListResponse", "AnswerListResponse", "HelpfulVote",
+    # Города
+    "CityBase", "CityProfileResponse", "CityFilters", "CityStatsResponse", "PopularCityResponse",
+    # Уведомления
+    "NotificationBase", "NotificationCreate", "NotificationUpdate", "NotificationResponse",
+    "NotificationListResponse", "NotificationStatsResponse", "MarkAsReadRequest", "MarkAsReadResponse"
 ]

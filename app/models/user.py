@@ -25,6 +25,9 @@ class User(Base):
     # Добавляем новые отношения для обсуждений
     discussions = relationship("Discussion", back_populates="user", cascade="all, delete-orphan")
     discussion_answers = relationship("DiscussionAnswer", back_populates="user", cascade="all, delete-orphan")
+    
+    # Добавляем связь с уведомлениями
+    notifications = relationship("Notification", back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<User {self.email}>"

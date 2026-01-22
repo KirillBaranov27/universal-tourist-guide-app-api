@@ -48,6 +48,18 @@ from app.crud.discussion_crud import (
     get_discussion_stats
 )
 
+from app.crud.notification_crud import (
+    get_notification,
+    get_user_notifications,
+    create_notification,
+    create_system_notification,
+    mark_as_read,
+    mark_as_archived,
+    delete_notification,
+    delete_all_read_notifications,
+    get_notification_stats
+)
+
 __all__ = [
     "get_landmark",
     "get_landmarks", 
@@ -72,7 +84,6 @@ __all__ = [
     "get_user_profile",
     "update_user_profile",
     "get_user_stats",
-    # Новые - обсуждения
     "get_discussion",
     "get_discussions",
     "create_discussion",
@@ -85,9 +96,13 @@ __all__ = [
     "delete_answer",
     "vote_helpful",
     "get_discussion_stats",
-    "get_city_profile",
-    "get_city_stats", 
-    "get_cities_with_stats",
-    "get_filtered_landmarks_by_city",
-    "get_city_categories"
+    "get_notification",
+    "get_user_notifications",
+    "create_notification",
+    "create_system_notification",
+    "mark_as_read",
+    "mark_as_archived",
+    "delete_notification",
+    "delete_all_read_notifications",
+    "get_notification_stats"
 ]

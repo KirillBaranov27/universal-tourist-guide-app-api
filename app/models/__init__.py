@@ -4,9 +4,11 @@ from app.models.favorite import Favorite
 from app.models.review import Review
 from app.models.discussion import Discussion, DiscussionAnswer
 from app.models.city import CityProfile, CityCategoryStats
+from app.models.notification import Notification
 
 __all__ = [
     "User", "Landmark", "Favorite", "Review", 
     "Discussion", "DiscussionAnswer",
-    "CityProfile", "CityCategoryStats"
+    "CityProfile", "CityCategoryStats",
+    "Notification"
 ]

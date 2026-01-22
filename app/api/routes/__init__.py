@@ -5,6 +5,7 @@ from app.api.routes.reviews import router as reviews_router
 from app.api.routes.profile import router as profile_router
 from app.api.routes.discussions import router as discussions_router
 from app.api.routes.cities import router as cities_router
+from app.api.routes.notifications import router as notifications_router
 
 # Импортируем схемы, которые теперь существуют
 from app.schemas.city import CityBase, CityProfileResponse, CityFilters, CityStatsResponse
@@ -17,6 +18,7 @@ __all__ = [
     "profile_router",
     "discussions_router",
     "cities_router",
+    "notifications_router",
     "CityBase", 
     "CityProfileResponse", 
     "CityFilters", 

@@ -3,6 +3,7 @@ from sqlalchemy import or_, and_, desc, func
 from typing import List, Tuple, Optional
 from app.models.discussion import Discussion, DiscussionAnswer
 from app.schemas.discussion import DiscussionCreate, DiscussionUpdate, DiscussionAnswerCreate, DiscussionAnswerUpdate
+from app.services.notification_service import notification_service
 
 # --- Discussion CRUD ---
 
@@ -10,7 +11,7 @@ def get_discussion(db: Session, discussion_id: int) -> Optional[Discussion]:
     """
     Получить обсуждение по ID
     """
-    return db.query(Discussion).filter(Discussion.id == discussion_id).first()
+    return db.query(Discussion).options(joinedload(Discussion.user)).filter(Discussion.id == discussion_id).first()
 
 def get_discussions(
     db: Session,
@@ -146,6 +147,15 @@ def create_answer(
     """
     Создать ответ на обсуждение
     """
+    # Сначала получаем обсуждение с автором
+    discussion = db.query(Discussion).options(
+        joinedload(Discussion.user)
+    ).filter(Discussion.id == discussion_id).first()
+    
+    if not discussion:
+        raise ValueError("Обсуждение не найдено")
+    
+    # Создаем ответ
     db_answer = DiscussionAnswer(
         **answer.dict(),
         discussion_id=discussion_id,
@@ -154,6 +164,28 @@ def create_answer(
     db.add(db_answer)
     db.commit()
     db.refresh(db_answer)
+    
+    # Создаем уведомление для автора обсуждения (если это не он сам отвечает)
+    if discussion.user_id != user_id:
+        try:
+            # Получаем автора ответа
+            from app.crud.user_crud import get_user_profile
+            answer_author = get_user_profile(db, user_id)
+            
+            if answer_author:
+                notification_service.send_discussion_answer_notification(
+                    db=db,
+                    discussion_author_id=discussion.user_id,
+                    answer_author_name=answer_author.full_name,
+                    discussion_title=discussion.title,
+                    discussion_id=discussion_id,
+                    answer_id=db_answer.id
+                )
+                print(f"✅ Создано уведомление для пользователя {discussion.user_id} о новом ответе")
+        except Exception as e:
+            print(f"❌ Ошибка при создании уведомления: {e}")
+            # Не прерываем выполнение, если уведомление не создалось
+    
     return db_answer
 
 def update_answer(
