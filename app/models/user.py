@@ -25,9 +25,17 @@ class User(Base):
     # Добавляем новые отношения для обсуждений
     discussions = relationship("Discussion", back_populates="user", cascade="all, delete-orphan")
     discussion_answers = relationship("DiscussionAnswer", back_populates="user", cascade="all, delete-orphan")
+<<<<<<< Updated upstream
     
     # Добавляем связь с уведомлениями
+=======
+>>>>>>> Stashed changes
     notifications = relationship("Notification", back_populates="user", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<User {self.email}>"
+<<<<<<< Updated upstream
+=======
+    
+    
+>>>>>>> Stashed changes

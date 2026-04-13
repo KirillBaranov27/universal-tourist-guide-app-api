@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from typing import List
@@ -20,10 +21,30 @@ from app.crud.notification_crud import (
     delete_notification,
     delete_all_read_notifications,
     get_notification_stats
+=======
+from typing import List
+from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy.orm import Session
+from app.core.database import get_db
+from app.core.security import get_current_user
+from app.crud.notification_crud import (
+    get_user_notifications,
+    get_unread_count,
+    mark_as_read,
+    mark_all_as_read,
+    delete_notification,
+    get_notification
+)
+from app.schemas.notification import (
+    NotificationResponse,
+    NotificationListResponse,
+    UnreadCountResponse
+>>>>>>> Stashed changes
 )
 
 router = APIRouter()
 
+<<<<<<< Updated upstream
 # --- Получение уведомлений ---
 
 @router.get("/notifications", response_model=NotificationListResponse)
@@ -188,3 +209,78 @@ def send_test_notification(
         "message": "Тестовое уведомление отправлено",
         "notification_id": notification.id
     }
+=======
+
+@router.get("/", response_model=NotificationListResponse)
+async def read_notifications(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(50, ge=1, le=100),
+    unread_only: bool = Query(False),
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    """Получить уведомления текущего пользователя"""
+    notifications, total = get_user_notifications(
+        db, 
+        user_id=current_user.id,
+        skip=skip,
+        limit=limit,
+        unread_only=unread_only
+    )
+    
+    unread_count = get_unread_count(db, current_user.id)
+    
+    return {
+        "items": notifications,
+        "total": total,
+        "unread_count": unread_count
+    }
+
+
+@router.get("/unread-count", response_model=UnreadCountResponse)
+async def get_unread_notifications_count(
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    """Получить количество непрочитанных уведомлений"""
+    count = get_unread_count(db, current_user.id)
+    return {"count": count}
+
+
+@router.put("/{notification_id}/read", response_model=NotificationResponse)
+async def mark_notification_as_read(
+    notification_id: int,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    """Отметить уведомление как прочитанное"""
+    notification = mark_as_read(db, notification_id, current_user.id)
+    if not notification:
+        raise HTTPException(status_code=404, detail="Уведомление не найдено")
+    return notification
+
+
+@router.put("/read-all", response_model=dict)
+async def mark_all_notifications_as_read(
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    """Отметить все уведомления как прочитанные"""
+    success = mark_all_as_read(db, current_user.id)
+    if success:
+        return {"message": "Все уведомления отмечены как прочитанные"}
+    return {"message": "Не удалось обновить уведомления"}
+
+
+@router.delete("/{notification_id}", response_model=dict)
+async def delete_notification_by_id(
+    notification_id: int,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
+    """Удалить уведомление"""
+    success = delete_notification(db, notification_id, current_user.id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Уведомление не найдено")
+    return {"message": "Уведомление удалено"}
+>>>>>>> Stashed changes

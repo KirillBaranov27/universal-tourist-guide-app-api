@@ -11,16 +11,6 @@ class CategoryStat(BaseModel):
         from_attributes = True
 
 
-class CityBase(BaseModel):
-    city_name: str
-    country: str
-    description: Optional[str] = None
-    image_url: Optional[str] = None
-
-    class Config:
-        from_attributes = True
-
-
 class CityProfileResponse(BaseModel):
     city_name: str
     country: str
@@ -54,6 +44,16 @@ class PopularCityResponse(BaseModel):
     country: str
     total_landmarks: int
     average_rating: float
+    image_url: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+class CityBase(BaseModel):
+    city_name: str
+    country: str
+    description: Optional[str] = None
     image_url: Optional[str] = None
 
     class Config:

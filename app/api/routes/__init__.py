@@ -6,9 +6,12 @@ from app.api.routes.profile import router as profile_router
 from app.api.routes.discussions import router as discussions_router
 from app.api.routes.cities import router as cities_router
 from app.api.routes.notifications import router as notifications_router
+<<<<<<< Updated upstream
 
 # Импортируем схемы, которые теперь существуют
 from app.schemas.city import CityBase, CityProfileResponse, CityFilters, CityStatsResponse
+=======
+>>>>>>> Stashed changes
 
 __all__ = [
     "auth_router", 
@@ -19,8 +22,11 @@ __all__ = [
     "discussions_router",
     "cities_router",
     "notifications_router",
+<<<<<<< Updated upstream
     "CityBase", 
     "CityProfileResponse", 
     "CityFilters", 
     "CityStatsResponse",
+=======
+>>>>>>> Stashed changes
 ]

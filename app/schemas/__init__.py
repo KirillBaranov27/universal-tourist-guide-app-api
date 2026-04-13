@@ -1,12 +1,22 @@
-from app.schemas.user import UserCreate, UserLogin, UserResponse, Token
-from app.schemas.landmark import LandmarkBase, LandmarkCreate, LandmarkResponse, LandmarkUpdate, LandmarkListResponse, FiltersResponse, LandmarkWithDistance
-from app.schemas.favorite import FavoriteBase, FavoriteCreate, FavoriteResponse, FavoriteListResponse, FavoriteWithLandmarkResponse
-from app.schemas.review import ReviewBase, ReviewCreate, ReviewUpdate, ReviewResponse, ReviewListResponse, ReviewWithLandmarkResponse, LandmarkReviewSummary
-from app.schemas.profile import UserProfileResponse, UserProfileUpdate, UserStatsResponse
-from app.schemas.discussion import (
-    DiscussionBase, DiscussionCreate, DiscussionUpdate, DiscussionResponse, DiscussionWithAnswersResponse,
-    DiscussionAnswerBase, DiscussionAnswerCreate, DiscussionAnswerUpdate, DiscussionAnswerResponse,
-    DiscussionListResponse, AnswerListResponse, HelpfulVote
+from .user import User, UserCreate, UserLogin, UserInDB, UserUpdate, UserResponse
+from .landmark import (
+    Landmark, LandmarkCreate, LandmarkUpdate, LandmarkResponse,
+    LandmarkListResponse, FiltersResponse, LandmarkWithDistance
+)
+from .favorite import Favorite, FavoriteCreate, FavoriteResponse
+from .review import Review, ReviewCreate, ReviewUpdate, ReviewResponse
+from .discussion import (
+    Discussion, DiscussionCreate, DiscussionUpdate, DiscussionResponse,
+    AnswerCreate, AnswerUpdate, AnswerResponse, VoteCreate
+)
+from .city import (
+    CityBase, CityProfileResponse, CityFilters, CityStatsResponse, 
+    PopularCityResponse, CategoryStat
+)
+from .notification import (
+    NotificationBase, NotificationCreate, NotificationUpdate, 
+    NotificationResponse, UnreadCountResponse, NotificationListResponse,
+    NotificationType
 )
 from app.schemas.city import CityBase, CityProfileResponse, CityFilters, CityStatsResponse, PopularCityResponse
 from app.schemas.notification import (
@@ -15,6 +25,7 @@ from app.schemas.notification import (
 )
 
 __all__ = [
+<<<<<<< Updated upstream
     # Существующие
     "UserCreate", "UserLogin", "UserResponse", "Token",
     "UserProfileResponse", "UserProfileUpdate", "UserStatsResponse",
@@ -30,4 +41,25 @@ __all__ = [
     # Уведомления
     "NotificationBase", "NotificationCreate", "NotificationUpdate", "NotificationResponse",
     "NotificationListResponse", "NotificationStatsResponse", "MarkAsReadRequest", "MarkAsReadResponse"
+=======
+    # User
+    "User", "UserCreate", "UserLogin", "UserInDB", "UserUpdate", "UserResponse",
+    # Landmark
+    "Landmark", "LandmarkCreate", "LandmarkUpdate", "LandmarkResponse",
+    "LandmarkListResponse", "FiltersResponse", "LandmarkWithDistance",
+    # Favorite
+    "Favorite", "FavoriteCreate", "FavoriteResponse",
+    # Review
+    "Review", "ReviewCreate", "ReviewUpdate", "ReviewResponse",
+    # Discussion
+    "Discussion", "DiscussionCreate", "DiscussionUpdate", "DiscussionResponse",
+    "AnswerCreate", "AnswerUpdate", "AnswerResponse", "VoteCreate",
+    # City
+    "CityBase", "CityProfileResponse", "CityFilters", "CityStatsResponse", 
+    "PopularCityResponse", "CategoryStat",
+    # Notification
+    "NotificationBase", "NotificationCreate", "NotificationUpdate", 
+    "NotificationResponse", "UnreadCountResponse", "NotificationListResponse",
+    "NotificationType",
+>>>>>>> Stashed changes
 ]

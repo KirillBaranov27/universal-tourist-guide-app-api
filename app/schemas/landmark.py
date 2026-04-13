@@ -40,6 +40,12 @@ class LandmarkResponse(LandmarkBase):
         from_attributes = True
 
 
+# Для совместимости с существующим кодом
+class Landmark(LandmarkResponse):
+    pass
+
+
+
 class LandmarkWithDistance(LandmarkResponse):
     distance: Optional[float] = None
 

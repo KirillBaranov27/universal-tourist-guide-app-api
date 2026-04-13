@@ -1,21 +1,24 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional
 from datetime import datetime
 
-# Базовые схемы
+
 class DiscussionBase(BaseModel):
-    title: str = Field(..., min_length=5, max_length=200, description="Заголовок обсуждения")
-    content: str = Field(..., min_length=10, max_length=5000, description="Содержание обсуждения")
-    landmark_id: Optional[int] = Field(None, description="ID достопримечательности (если привязано)")
-    city: Optional[str] = Field(None, max_length=100, description="Город (если обсуждение о городе)")
+    title: str = Field(..., max_length=200)
+    content: str = Field(..., min_length=10)
+    landmark_id: Optional[int] = None
+    city: Optional[str] = None
+
 
 class DiscussionCreate(DiscussionBase):
     pass
 
+
 class DiscussionUpdate(BaseModel):
-    title: Optional[str] = Field(None, min_length=5, max_length=200)
-    content: Optional[str] = Field(None, min_length=10, max_length=5000)
+    title: Optional[str] = Field(None, max_length=200)
+    content: Optional[str] = Field(None, min_length=10)
     is_closed: Optional[bool] = None
+
 
 class DiscussionResponse(DiscussionBase):
     id: int
@@ -23,55 +26,45 @@ class DiscussionResponse(DiscussionBase):
     user_name: str
     user_avatar: Optional[str] = None
     created_at: datetime
-    updated_at: Optional[datetime] = None
+    updated_at: datetime
     is_closed: bool
-    answer_count: int = 0
-    
+    answer_count: int
+
     class Config:
         from_attributes = True
 
-class DiscussionWithAnswersResponse(DiscussionResponse):
-    answers: List["DiscussionAnswerResponse"] = []
 
-# Схемы для ответов
-class DiscussionAnswerBase(BaseModel):
-    content: str = Field(..., min_length=5, max_length=2000, description="Текст ответа")
+class AnswerBase(BaseModel):
+    content: str = Field(..., min_length=1)
 
-class DiscussionAnswerCreate(DiscussionAnswerBase):
+
+class AnswerCreate(AnswerBase):
+    discussion_id: int
+
+
+class AnswerUpdate(AnswerBase):
     pass
 
-class DiscussionAnswerUpdate(BaseModel):
-    content: Optional[str] = Field(None, min_length=5, max_length=2000)
 
-class DiscussionAnswerResponse(DiscussionAnswerBase):
+class AnswerResponse(AnswerBase):
     id: int
     user_id: int
     user_name: str
     user_avatar: Optional[str] = None
     discussion_id: int
     created_at: datetime
-    updated_at: Optional[datetime] = None
+    updated_at: datetime
     is_helpful: bool
     helpful_votes: int
-    
+
     class Config:
         from_attributes = True
 
-# Схемы для списков
-class DiscussionListResponse(BaseModel):
-    items: List[DiscussionResponse]
-    total: int
-    page: int
-    size: int
-    pages: int
 
-class AnswerListResponse(BaseModel):
-    items: List[DiscussionAnswerResponse]
-    total: int
+class VoteCreate(BaseModel):
+    is_helpful: bool
 
-# Схема для голосования
-class HelpfulVote(BaseModel):
-    is_helpful: bool = Field(..., description="Полезен ли ответ")
 
-# Обновляем схемы для разрешения forward references
-DiscussionWithAnswersResponse.update_forward_refs()
+# Для совместимости
+class Discussion(DiscussionResponse):
+    pass
